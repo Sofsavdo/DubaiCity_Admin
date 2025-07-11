@@ -291,13 +291,13 @@ class DubaiCityBot {
 let dubaiCityBot: DubaiCityBot | null = null;
 
 if (process.env.TELEGRAM_BOT_TOKEN) {
-  // Use the Replit domain as web app URL
-  const webAppUrl = process.env.REPLIT_DEV_DOMAIN 
-    ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-    : 'https://your-frontend-domain.replit.app';
+  // IMPORTANT: Use frontend URL, not backend URL
+  // Replace with your actual frontend domain
+  const webAppUrl = 'https://your-frontend-domain.replit.app';
   
   dubaiCityBot = new DubaiCityBot(process.env.TELEGRAM_BOT_TOKEN, webAppUrl);
   console.log('Dubai City Bot initialized successfully');
+  console.log('Web App URL:', webAppUrl);
 } else {
   console.warn('TELEGRAM_BOT_TOKEN not found, bot will not be initialized');
 }
