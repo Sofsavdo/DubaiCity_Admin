@@ -10,6 +10,10 @@ This is a comprehensive admin panel for managing a Dubai City Bot Telegram appli
 - ✅ Implemented full backend API for both admin panel and game frontend
 - ✅ Added Dubai City Bot game logic with 14-level empire system
 - ✅ Complete CRUD operations for all game entities
+- ✅ **Telegram Web App Integration**: Added Telegram bot (@DubaiCITY_robot) with Web App functionality
+- ✅ **Bot Authentication**: Implemented secure Telegram Web App data verification
+- ✅ **Auto User Registration**: Users automatically register via Telegram bot interaction
+- ✅ **Referral System**: Added referral code support with bonus rewards
 
 ## User Preferences
 

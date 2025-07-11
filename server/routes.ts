@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { telegramWebApp } from "./telegram";
 import { insertUserSchema, insertTaskSchema, insertSkinSchema, insertBusinessSchema, insertPromoCodeSchema, insertNotificationSchema, insertTeamSchema, insertProjectSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -21,6 +22,86 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       res.status(500).json({ success: false, message: "Error fetching stats" });
+    }
+  });
+
+  // ================= TELEGRAM WEB APP ROUTES =================
+  
+  // Telegram Web App Authentication
+  app.post("/api/telegram/auth", async (req, res) => {
+    try {
+      const { initData } = req.body;
+      
+      if (!initData) {
+        return res.status(400).json({ success: false, message: "Init data is required" });
+      }
+
+      const verificationResult = telegramWebApp.verifyWebAppData(initData);
+      
+      if (!verificationResult.verified) {
+        return res.status(401).json({ success: false, message: "Invalid Telegram data" });
+      }
+
+      // Get or create user
+      const telegramUser = verificationResult.user;
+      let user = await storage.getUserByTelegramId(telegramUser.id.toString());
+
+      if (!user) {
+        // Create new user
+        const newUser = {
+          telegramId: telegramUser.id.toString(),
+          username: telegramUser.username || `user_${telegramUser.id}`,
+          firstName: telegramUser.first_name || "",
+          lastName: telegramUser.last_name || "",
+          language: telegramWebApp.getUserLanguage(telegramUser),
+          isActive: true,
+          coins: 0,
+          empireLevel: 1,
+          profileImage: null,
+          referralCode: null,
+          referredBy: null,
+          isPremium: telegramUser.is_premium || false,
+        };
+
+        user = await storage.createUser(newUser);
+      }
+
+      res.json({
+        success: true,
+        data: {
+          user,
+          telegram: {
+            id: telegramUser.id,
+            username: telegramUser.username,
+            firstName: telegramUser.first_name,
+            lastName: telegramUser.last_name,
+            isPremium: telegramUser.is_premium,
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Telegram auth error:", error);
+      res.status(500).json({ success: false, message: "Authentication failed" });
+    }
+  });
+
+  // Get Telegram Web App user info
+  app.get("/api/telegram/user/:telegramId", async (req, res) => {
+    try {
+      const { telegramId } = req.params;
+      const user = await storage.getUserByTelegramId(telegramId);
+      
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+      }
+
+      res.json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      console.error("Get user error:", error);
+      res.status(500).json({ success: false, message: "Error fetching user" });
     }
   });
 
