@@ -292,8 +292,8 @@ let dubaiCityBot: DubaiCityBot | null = null;
 
 if (process.env.TELEGRAM_BOT_TOKEN) {
   // IMPORTANT: Use frontend URL, not backend URL
-  // Replace with your actual frontend domain
-  const webAppUrl = 'https://your-frontend-domain.replit.app';
+  // Your DubaiCity_Frontend URL
+  const webAppUrl = 'https://d4e3bfcd-6661-468d-98cd-da8d2d516c46-00-jyoom5fdx37t.sisko.replit.dev';
   
   dubaiCityBot = new DubaiCityBot(process.env.TELEGRAM_BOT_TOKEN, webAppUrl);
   console.log('Dubai City Bot initialized successfully');
