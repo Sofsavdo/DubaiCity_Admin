@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
@@ -17,9 +17,26 @@ import ProjectsManagement from './components/ProjectsManagement';
 import TeamManagement from './components/TeamManagement';
 import ProfileManagement from './components/ProfileManagement';
 import StatisticsManagement from './components/StatisticsManagement';
+import GameInterface from './pages/GameInterface';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isGameMode, setIsGameMode] = useState(false);
+
+  useEffect(() => {
+    // Check if running in Telegram Web App
+    const urlParams = new URLSearchParams(window.location.search);
+    const isWebApp = urlParams.get('tgWebAppPlatform') || window.Telegram?.WebApp;
+    
+    if (isWebApp) {
+      setIsGameMode(true);
+    }
+  }, []);
+
+  // If in game mode, show game interface
+  if (isGameMode) {
+    return <GameInterface />;
+  }
 
   const renderContent = () => {
     switch (activeTab) {
