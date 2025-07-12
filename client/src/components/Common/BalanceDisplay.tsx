@@ -8,7 +8,7 @@ const BalanceDisplay = ({ user }) => {
 
   return (
     <motion.div
-      className="bg-gradient-to-r from-slate-800/90 to-slate-700/90 backdrop-blur-xl rounded-2xl p-4 border border-amber-500/30 shadow-2xl"
+      className="bg-gradient-to-r from-slate-800/90 to-slate-700/90 backdrop-blur-xl rounded-xl p-3 border border-amber-500/30 shadow-xl"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -17,7 +17,7 @@ const BalanceDisplay = ({ user }) => {
         {/* Main Balance */}
         <div className="flex items-center space-x-3">
           <motion.div
-            className="w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg"
+            className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg"
             animate={{ 
               rotate: [0, 5, -5, 0],
               boxShadow: [
@@ -28,7 +28,7 @@ const BalanceDisplay = ({ user }) => {
             }}
             transition={{ repeat: Infinity, duration: 4 }}
           >
-            <CoinIcon className="w-8 h-8 text-black" />
+            <CoinIcon className="w-6 h-6 text-black" />
           </motion.div>
           
           <div>
@@ -37,7 +37,7 @@ const BalanceDisplay = ({ user }) => {
               whileHover={{ scale: 1.02 }}
             >
               <motion.h1
-                className="text-3xl font-bold bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 bg-clip-text text-transparent"
+                className="text-xl font-bold bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 bg-clip-text text-transparent"
                 animate={{ 
                   backgroundPosition: ["0%", "100%", "0%"],
                 }}
@@ -47,14 +47,14 @@ const BalanceDisplay = ({ user }) => {
                 {formatNumberShort(user.dubaiCoin || 0)}
               </motion.h1>
               <motion.span
-                className="text-lg text-amber-400 font-medium"
+                className="text-sm text-amber-400 font-medium"
                 animate={{ opacity: [0.7, 1, 0.7] }}
                 transition={{ repeat: Infinity, duration: 2 }}
               >
                 DC
               </motion.span>
             </motion.div>
-            <p className="text-sm text-gray-400">
+            <p className="text-xs text-gray-400">
               Jami: {formatNumberShort(user.totalEarned || 0)}
             </p>
           </div>
@@ -63,23 +63,22 @@ const BalanceDisplay = ({ user }) => {
         {/* Premium Badge */}
         {user.isPremium && (
           <motion.div
-            className="bg-gradient-to-r from-purple-600 to-pink-600 px-3 py-2 rounded-xl shadow-lg"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 px-2 py-1 rounded-lg shadow-lg"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.3, type: "spring" }}
             whileHover={{ scale: 1.05 }}
           >
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
               <motion.span
-                className="text-lg"
+                className="text-sm"
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 2 }}
               >
                 👑
               </motion.span>
               <div className="text-xs font-medium text-white">
-                <div>PREMIUM</div>
-                <div className="text-yellow-300">Lvl {user.premiumLevel || 1}</div>
+                <div>VIP</div>
               </div>
             </div>
           </motion.div>
@@ -88,15 +87,15 @@ const BalanceDisplay = ({ user }) => {
 
       {/* Stats Row */}
       <motion.div
-        className="mt-4 pt-3 border-t border-slate-600/50"
+        className="mt-2 pt-2 border-t border-slate-600/50"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
-        <div className="grid grid-cols-3 gap-4 text-center">
+        <div className="grid grid-cols-3 gap-2 text-center">
           <div>
             <motion.p 
-              className="text-lg font-bold text-blue-400"
+              className="text-sm font-bold text-blue-400"
               whileHover={{ scale: 1.1 }}
             >
               {user.level || 1}
@@ -105,7 +104,7 @@ const BalanceDisplay = ({ user }) => {
           </div>
           <div>
             <motion.p 
-              className="text-lg font-bold text-green-400"
+              className="text-sm font-bold text-green-400"
               whileHover={{ scale: 1.1 }}
             >
               {user.tapsToday || 0}
@@ -114,7 +113,7 @@ const BalanceDisplay = ({ user }) => {
           </div>
           <div>
             <motion.p 
-              className="text-lg font-bold text-purple-400"
+              className="text-sm font-bold text-purple-400"
               whileHover={{ scale: 1.1 }}
             >
               {user.referrals?.length || 0}
@@ -123,44 +122,6 @@ const BalanceDisplay = ({ user }) => {
           </div>
         </div>
       </motion.div>
-
-      {/* Achievement Badges */}
-      {(user.totalEarned > 1000000 || user.tapsToday > 100 || user.level > 5) && (
-        <motion.div
-          className="mt-3 flex justify-center space-x-2"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          {user.totalEarned > 1000000 && (
-            <motion.div
-              className="bg-gradient-to-r from-amber-500 to-yellow-500 px-2 py-1 rounded-full text-xs font-bold text-black"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 3 }}
-            >
-              🏆 Millioner
-            </motion.div>
-          )}
-          {user.tapsToday > 100 && (
-            <motion.div
-              className="bg-gradient-to-r from-blue-500 to-cyan-500 px-2 py-1 rounded-full text-xs font-bold text-white"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 3, delay: 0.5 }}
-            >
-              ⚡ Faol
-            </motion.div>
-          )}
-          {user.level > 5 && (
-            <motion.div
-              className="bg-gradient-to-r from-purple-500 to-pink-500 px-2 py-1 rounded-full text-xs font-bold text-white"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 3, delay: 1 }}
-            >
-              🎯 Expert
-            </motion.div>
-          )}
-        </motion.div>
-      )}
     </motion.div>
   );
 };

@@ -82,7 +82,7 @@ const Nav = ({ activeTab, setActiveTab, tasks, dailyMissions, companies, user })
           <div className="h-full w-full bg-gradient-to-r from-amber-400/10 via-purple-400/10 to-blue-400/10"></div>
         </div>
 
-        <div className="relative flex justify-around items-center px-2 py-3 max-w-lg mx-auto">
+        <div className="relative flex justify-around items-center px-2 py-2 max-w-lg mx-auto">
           {tabs.map((tab, index) => {
             const isActive = activeTab === tab.key;
             const badgeCount = getBadgeCount(tab.key);
@@ -96,9 +96,9 @@ const Nav = ({ activeTab, setActiveTab, tasks, dailyMissions, companies, user })
                 transition={{ delay: index * 0.1, duration: 0.3 }}
               >
                 <motion.button
-                  className={`relative flex flex-col items-center p-3 rounded-2xl transition-all duration-300 ${
+                  className={`relative flex flex-col items-center p-2 rounded-xl transition-all duration-300 ${
                     isActive 
-                      ? 'bg-gradient-to-br from-slate-700/80 to-slate-800/80 shadow-2xl' 
+                      ? 'bg-gradient-to-br from-slate-700/80 to-slate-800/80 shadow-xl' 
                       : 'hover:bg-slate-800/50'
                   }`}
                   whileHover={{ scale: 1.05, y: -2 }}
@@ -111,7 +111,7 @@ const Nav = ({ activeTab, setActiveTab, tasks, dailyMissions, companies, user })
                   {/* Active indicator */}
                   {isActive && (
                     <motion.div
-                      className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"
+                      className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-6 h-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"
                       layoutId="activeTab"
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
@@ -119,7 +119,7 @@ const Nav = ({ activeTab, setActiveTab, tasks, dailyMissions, companies, user })
 
                   {/* Icon with gradient background */}
                   <motion.div
-                    className={`relative w-10 h-10 rounded-xl flex items-center justify-center mb-1 ${
+                    className={`relative w-8 h-8 rounded-lg flex items-center justify-center mb-1 ${
                       isActive 
                         ? `bg-gradient-to-br ${tab.activeColor} shadow-lg` 
                         : `bg-gradient-to-br ${tab.color} opacity-60`
@@ -134,18 +134,18 @@ const Nav = ({ activeTab, setActiveTab, tasks, dailyMissions, companies, user })
                     transition={{ repeat: Infinity, duration: 2 }}
                   >
                     <motion.div
-                      className={`${isActive ? 'text-black' : 'text-white'}`}
-                      animate={isActive ? { scale: [1, 1.1, 1] } : {}}
+                      className={`${isActive ? 'text-black' : 'text-white'} scale-75`}
+                      animate={isActive ? { scale: [0.75, 0.85, 0.75] } : {}}
                       transition={{ repeat: Infinity, duration: 2 }}
                     >
                       {tab.icon}
                     </motion.div>
 
                     {/* Badge for notifications */}
-                    <AnimatePresence>
+                    <AnimatePresence mode="wait">
                       {badgeCount > 0 && (
                         <motion.div
-                          className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center border-2 border-black"
+                          className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center border border-black"
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           exit={{ scale: 0 }}
@@ -175,7 +175,7 @@ const Nav = ({ activeTab, setActiveTab, tasks, dailyMissions, companies, user })
                   {/* Active glow effect */}
                   {isActive && (
                     <motion.div
-                      className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-400/20 to-orange-500/20"
+                      className="absolute inset-0 rounded-xl bg-gradient-to-br from-amber-400/20 to-orange-500/20"
                       animate={{ 
                         opacity: [0.2, 0.4, 0.2],
                         scale: [1, 1.05, 1]

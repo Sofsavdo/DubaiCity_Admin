@@ -46,7 +46,7 @@ const NavButton = ({ label, icon, active, onClick, badgeCount = 0 }) => {
         </motion.div>
 
         {/* Notification badge */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {badgeCount > 0 && (
             <motion.div
               className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center border-2 border-black"

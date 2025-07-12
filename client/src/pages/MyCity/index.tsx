@@ -181,37 +181,37 @@ const MyCity = ({
       </div>
 
       {/* Header with balance */}
-      <div className="relative z-10 p-4 pb-2">
+      <div className="relative z-10 p-3 pb-1">
         <BalanceDisplay user={user} />
       </div>
 
       {/* Level Progress Section */}
       <motion.div 
-        className="px-4 py-3"
+        className="px-3 py-1"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <div className="bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-lg rounded-2xl p-4 border border-amber-500/30 shadow-2xl">
+        <div className="bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-lg rounded-xl p-3 border border-amber-500/30 shadow-xl">
           {/* Level Info */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center space-x-2">
               <motion.div 
-                className="w-12 h-12 bg-gradient-to-r from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg"
+                className="w-8 h-8 bg-gradient-to-r from-amber-400 to-orange-500 rounded-lg flex items-center justify-center shadow-lg"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="text-2xl font-bold text-black">{currentLevel}</span>
+                <span className="text-sm font-bold text-black">{currentLevel}</span>
               </motion.div>
               <div>
-                <h3 className="text-lg font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                <h3 className="text-sm font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
                   {currentLevelName}
                 </h3>
                 <p className="text-xs text-gray-400">Daraja {currentLevel}</p>
               </div>
             </div>
             <motion.button
-              className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 rounded-xl text-sm font-medium hover:from-blue-500 hover:to-purple-500 transition-all shadow-lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-1 rounded-lg text-xs font-medium hover:from-blue-500 hover:to-purple-500 transition-all shadow-lg"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowLevelModal(true)}
@@ -221,12 +221,12 @@ const MyCity = ({
           </div>
 
           {/* Enhanced Progress Bar */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
+          <div className="space-y-1">
+            <div className="flex justify-between text-xs">
               <span className="text-gray-300">Progress</span>
               <span className="text-amber-400 font-medium">{progressPercentage.toFixed(1)}%</span>
             </div>
-            <div className="relative h-3 bg-slate-700 rounded-full overflow-hidden shadow-inner">
+            <div className="relative h-2 bg-slate-700 rounded-full overflow-hidden shadow-inner">
               <motion.div
                 className="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-amber-600 rounded-full shadow-lg"
                 initial={{ width: 0 }}
@@ -248,7 +248,7 @@ const MyCity = ({
       </motion.div>
 
       {/* Stats Panel */}
-      <div className="px-4 py-2">
+      <div className="px-3 py-1">
         <TopInfoPanel 
           user={user} 
           passiveIncome={passiveIncome} 
@@ -259,7 +259,7 @@ const MyCity = ({
       </div>
 
       {/* Combo Display */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {comboCount > 1 && (
           <motion.div
             className="absolute top-32 left-1/2 transform -translate-x-1/2 z-30"
@@ -277,10 +277,10 @@ const MyCity = ({
       </AnimatePresence>
 
       {/* Main Tap Area */}
-      <div className="flex-1 flex items-center justify-center px-4 pb-6 relative">
+      <div className="flex-1 flex items-center justify-center px-3 py-2 relative min-h-0">
         <motion.div
           ref={tapAreaRef}
-          className="relative w-80 h-80 flex items-center justify-center cursor-pointer"
+          className="relative w-48 h-48 flex items-center justify-center cursor-pointer"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onPointerDown={handleTap}
@@ -330,23 +330,23 @@ const MyCity = ({
 
           {/* Main Avatar */}
           <motion.div
-            className="relative z-10 w-48 h-48 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/30"
+            className="relative z-10 w-32 h-32 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-2xl border-2 border-white/30"
             animate={{
               boxShadow: [
                 "0 0 0 0 rgba(251, 191, 36, 0.4)",
-                "0 0 0 20px rgba(251, 191, 36, 0)",
+                "0 0 0 15px rgba(251, 191, 36, 0)",
                 "0 0 0 0 rgba(251, 191, 36, 0)"
               ]
             }}
             transition={{ repeat: Infinity, duration: 2 }}
           >
-            <span className="text-8xl filter drop-shadow-lg">
+            <span className="text-5xl filter drop-shadow-lg">
               {getCurrentAvatar()}
             </span>
           </motion.div>
 
           {/* Tap Effects */}
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {taps.map((tap) => (
               <motion.div
                 key={tap.id}
@@ -370,7 +370,7 @@ const MyCity = ({
           </AnimatePresence>
 
           {/* Particle Effects */}
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {particleEffects.map((particle) => (
               <motion.div
                 key={particle.id}
@@ -394,22 +394,22 @@ const MyCity = ({
 
       {/* Energy Bar */}
       <motion.div 
-        className="px-4 pb-4"
+        className="px-3 py-1"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <div className="bg-slate-800/80 backdrop-blur-lg rounded-2xl p-4 border border-blue-500/30">
+        <div className="bg-slate-800/80 backdrop-blur-lg rounded-xl p-3 border border-blue-500/30">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center space-x-2">
-              <span className="text-2xl">⚡</span>
-              <span className="text-lg font-bold text-blue-400">Energiya</span>
+              <span className="text-lg">⚡</span>
+              <span className="text-sm font-bold text-blue-400">Energiya</span>
             </div>
-            <span className="text-sm font-medium text-gray-300">
+            <span className="text-xs font-medium text-gray-300">
               {Math.floor(user.energy)}/{maxEnergy}
             </span>
           </div>
-          <div className="relative h-4 bg-slate-700 rounded-full overflow-hidden">
+          <div className="relative h-2 bg-slate-700 rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
               animate={{ width: `${energyPercentage}%` }}
@@ -426,13 +426,13 @@ const MyCity = ({
 
       {/* Tap Boost Button */}
       <motion.div 
-        className="px-4 pb-6"
+        className="px-3 pb-3"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
         <motion.button
-          className={`w-full py-4 rounded-2xl font-bold text-lg shadow-2xl transition-all ${
+          className={`w-full py-3 rounded-xl font-bold text-sm shadow-xl transition-all ${
             isTapBoostActive
               ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
               : 'bg-gradient-to-r from-amber-500 to-orange-600 text-black hover:from-amber-400 hover:to-orange-500'
@@ -459,7 +459,7 @@ const MyCity = ({
       </motion.div>
 
       {/* Offline Earnings Claim */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {offlineEarningsToClaim > 0 && (
           <motion.div
             className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
