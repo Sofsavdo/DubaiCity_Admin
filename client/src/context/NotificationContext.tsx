@@ -14,7 +14,7 @@ interface NotificationContextType {
   notifications: Notification[];
 }
 
-export const NotificationContext = createContext<NotificationContextType | null>(null);
+const NotificationContext = createContext<NotificationContextType | null>(null);
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -23,17 +23,14 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     const notificationId = id || `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
     setNotifications((prev) => {
-      // Bir xil ID yoki xabar bilan bildirishnoma mavjudligini tekshirish
       if (prev.some((n) => n.id === notificationId || n.message === message)) {
         return prev;
       }
       
-      // Maksimal 3 ta bildirishnoma ko'rsatish
       const newNotifications = [...prev, { id: notificationId, message, type, duration }];
       return newNotifications.slice(-3);
     });
 
-    // Bildirishnomani avtomatik o'chirish
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
     }, duration);
@@ -43,8 +40,15 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
+  const contextValue: NotificationContextType = {
+    addNotification,
+    removeNotification,
+    notifications
+  };
+
   return (
-    <NotificationContext.Provider value={{ addNotification, removeNotification, notifications }}>
+    <NotificationContext.Provider value={contextValue}>
+      {children}
       <div className="fixed top-4 right-4 z-50 space-y-2 max-w-xs">
         <AnimatePresence>
           {notifications.map(({ id, message, type }) => (
@@ -72,15 +76,21 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
           ))}
         </AnimatePresence>
       </div>
-      {children}
     </NotificationContext.Provider>
   );
 };
 
-export const useNotifier = () => {
+export const useNotifier = (): NotificationContextType => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotifier must be used within a NotificationProvider');
+    // Fallback to console logging if context is not available
+    return {
+      addNotification: (message: string, type?: string) => {
+        console.log(`Notification: ${message} (${type || 'info'})`);
+      },
+      removeNotification: () => {},
+      notifications: []
+    };
   }
   return context;
 };
