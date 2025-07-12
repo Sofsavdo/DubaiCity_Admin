@@ -18,7 +18,7 @@ const LevelModal = ({ show, onClose, user, levelNames, levelThresholds, leaderbo
     });
     
     // Foydalanuvchini qo'shish agar u shu darajada bo'lsa
-    if (user.level === level) {
+    if (user?.level === level) {
       const userInList = levelPlayers.find(p => p.id === user.id);
       if (!userInList) {
         levelPlayers.push({
@@ -40,16 +40,16 @@ const LevelModal = ({ show, onClose, user, levelNames, levelThresholds, leaderbo
   };
 
   const currentLevelData = createLevelLeaderboard(currentLevelView);
-  const currentLevelName = levelNames[currentLevelView - 1] || 'Amir';
+  const currentLevelName = levelNames?.[currentLevelView - 1] || 'Amir';
   const currentLevelThreshold = currentLevelView === 1 ? 0 : levelThresholds[currentLevelView - 2];
   const nextLevelThreshold = levelThresholds[currentLevelView - 1];
   
-  const userRank = currentLevelData.findIndex(p => p.id === user.id) + 1;
+  const userRank = currentLevelData.findIndex(p => p.id === user?.id) + 1;
   const topPlayers = currentLevelData.slice(0, 10);
-  const userPosition = currentLevelData.find(p => p.id === user.id);
+  const userPosition = currentLevelData.find(p => p.id === user?.id);
 
   const canGoLeft = currentLevelView > 1;
-  const canGoRight = currentLevelView < levelNames.length;
+  const canGoRight = currentLevelView < (levelNames?.length || 0);
 
   return (
     <AnimatePresence>

@@ -50,7 +50,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     <NotificationContext.Provider value={contextValue}>
       {children}
       <div className="fixed top-4 right-4 z-50 space-y-2 max-w-xs">
-        <AnimatePresence>
+        <AnimatePresence mode="popLayout">
           {notifications.map(({ id, message, type }) => (
             <motion.div
               key={id}

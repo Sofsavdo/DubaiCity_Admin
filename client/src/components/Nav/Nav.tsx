@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import NavButton from './NavButton';
 import { CityIcon, MarketIcon, ProjectsIcon, AssetsIcon, TeamIcon, ProfileIcon } from '../Icons';
 
@@ -22,35 +22,175 @@ const Nav = ({ activeTab, setActiveTab, tasks, dailyMissions, companies, user })
   };
 
   const tabs = [
-    { label: 'Imperiya', icon: <CityIcon className="w-6 h-6" />, key: 'Imperiya' },
-    { label: 'Bozor', icon: <MarketIcon className="w-6 h-6" />, key: 'Bozor' },
-    { label: 'Loyihalar', icon: <ProjectsIcon className="w-6 h-6" />, key: 'Loyihalar' },
-    { label: 'Aktivlar', icon: <AssetsIcon className="w-6 h-6" />, key: 'Aktivlar' },
-    { label: 'Jamoa', icon: <TeamIcon className="w-6 h-6" />, key: 'Jamoa' },
-    { label: 'Profil', icon: <ProfileIcon className="w-6 h-6" />, key: 'Profil' },
+    { 
+      label: 'Imperiya', 
+      icon: <CityIcon className="w-6 h-6" />, 
+      key: 'Imperiya',
+      color: 'from-amber-500 to-orange-600',
+      activeColor: 'from-amber-400 to-orange-500'
+    },
+    { 
+      label: 'Bozor', 
+      icon: <MarketIcon className="w-6 h-6" />, 
+      key: 'Bozor',
+      color: 'from-green-500 to-emerald-600',
+      activeColor: 'from-green-400 to-emerald-500'
+    },
+    { 
+      label: 'Loyihalar', 
+      icon: <ProjectsIcon className="w-6 h-6" />, 
+      key: 'Loyihalar',
+      color: 'from-blue-500 to-indigo-600',
+      activeColor: 'from-blue-400 to-indigo-500'
+    },
+    { 
+      label: 'Aktivlar', 
+      icon: <AssetsIcon className="w-6 h-6" />, 
+      key: 'Aktivlar',
+      color: 'from-purple-500 to-violet-600',
+      activeColor: 'from-purple-400 to-violet-500'
+    },
+    { 
+      label: 'Jamoa', 
+      icon: <TeamIcon className="w-6 h-6" />, 
+      key: 'Jamoa',
+      color: 'from-pink-500 to-rose-600',
+      activeColor: 'from-pink-400 to-rose-500'
+    },
+    { 
+      label: 'Profil', 
+      icon: <ProfileIcon className="w-6 h-6" />, 
+      key: 'Profil',
+      color: 'from-cyan-500 to-teal-600',
+      activeColor: 'from-cyan-400 to-teal-500'
+    },
   ];
 
   return (
     <motion.footer
-      className="fixed bottom-0 left-0 right-0 z-20 bg-black/50 backdrop-blur-md border-t border-white/10 neon-glow"
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
+      className="fixed bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/95 via-slate-900/90 to-transparent backdrop-blur-xl border-t border-white/20"
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <div className="flex justify-around items-center p-1 max-w-lg mx-auto">
-        {tabs.map((tab) => (
-          <NavButton
-            key={tab.key}
-            label={tab.label}
-            icon={tab.icon}
-            active={activeTab === tab.key}
-            onClick={() => {
-              setActiveTab(tab.key);
-              window.Telegram?.WebApp?.HapticFeedback.impactOccurred('medium');
-            }}
-            badgeCount={getBadgeCount(tab.key)}
-          />
-        ))}
+      {/* Glowing top edge */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/50 to-transparent"></div>
+      
+      <div className="relative">
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="h-full w-full bg-gradient-to-r from-amber-400/10 via-purple-400/10 to-blue-400/10"></div>
+        </div>
+
+        <div className="relative flex justify-around items-center px-2 py-3 max-w-lg mx-auto">
+          {tabs.map((tab, index) => {
+            const isActive = activeTab === tab.key;
+            const badgeCount = getBadgeCount(tab.key);
+            
+            return (
+              <motion.div
+                key={tab.key}
+                className="relative flex-1 flex justify-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.3 }}
+              >
+                <motion.button
+                  className={`relative flex flex-col items-center p-3 rounded-2xl transition-all duration-300 ${
+                    isActive 
+                      ? 'bg-gradient-to-br from-slate-700/80 to-slate-800/80 shadow-2xl' 
+                      : 'hover:bg-slate-800/50'
+                  }`}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    setActiveTab(tab.key);
+                    window.Telegram?.WebApp?.HapticFeedback.impactOccurred('medium');
+                  }}
+                >
+                  {/* Active indicator */}
+                  {isActive && (
+                    <motion.div
+                      className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"
+                      layoutId="activeTab"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  )}
+
+                  {/* Icon with gradient background */}
+                  <motion.div
+                    className={`relative w-10 h-10 rounded-xl flex items-center justify-center mb-1 ${
+                      isActive 
+                        ? `bg-gradient-to-br ${tab.activeColor} shadow-lg` 
+                        : `bg-gradient-to-br ${tab.color} opacity-60`
+                    }`}
+                    animate={isActive ? {
+                      boxShadow: [
+                        "0 4px 20px rgba(251, 191, 36, 0.3)",
+                        "0 6px 30px rgba(251, 191, 36, 0.5)",
+                        "0 4px 20px rgba(251, 191, 36, 0.3)"
+                      ]
+                    } : {}}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                  >
+                    <motion.div
+                      className={`${isActive ? 'text-black' : 'text-white'}`}
+                      animate={isActive ? { scale: [1, 1.1, 1] } : {}}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                    >
+                      {tab.icon}
+                    </motion.div>
+
+                    {/* Badge for notifications */}
+                    <AnimatePresence>
+                      {badgeCount > 0 && (
+                        <motion.div
+                          className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center border-2 border-black"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          whileHover={{ scale: 1.2 }}
+                        >
+                          <span className="text-xs font-bold text-white">
+                            {badgeCount > 9 ? '9+' : badgeCount}
+                          </span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+
+                  {/* Label */}
+                  <motion.span
+                    className={`text-xs font-medium transition-all ${
+                      isActive 
+                        ? 'text-white' 
+                        : 'text-gray-400'
+                    }`}
+                    animate={isActive ? { scale: [1, 1.05, 1] } : {}}
+                    transition={{ repeat: Infinity, duration: 3 }}
+                  >
+                    {tab.label}
+                  </motion.span>
+
+                  {/* Active glow effect */}
+                  {isActive && (
+                    <motion.div
+                      className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-400/20 to-orange-500/20"
+                      animate={{ 
+                        opacity: [0.2, 0.4, 0.2],
+                        scale: [1, 1.05, 1]
+                      }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                    />
+                  )}
+                </motion.button>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Bottom safe area for notched devices */}
+        <div className="h-safe-area-inset-bottom bg-gradient-to-t from-black to-transparent"></div>
       </div>
     </motion.footer>
   );

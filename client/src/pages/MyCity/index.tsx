@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatNumberShort, getLevelProgress, calculateEnergyCost, calculateTapPower, calculateMaxEnergy } from '../../utils/helpers';
 import TopInfoPanel from './TopInfoPanel';
@@ -20,288 +20,499 @@ const MyCity = ({
 }) => {
   const [taps, setTaps] = useState([]);
   const [showLevelModal, setShowLevelModal] = useState(false);
+  const [comboCount, setComboCount] = useState(0);
+  const [lastTapTime, setLastTapTime] = useState(0);
+  const [particleEffects, setParticleEffects] = useState([]);
   const tapAreaRef = useRef(null);
 
   if (!user || !levelThresholds || !levelNames) {
     return (
       <motion.div
-        className="flex items-center justify-center h-full bg-gradient-to-b from-gray-900 to-black text-white"
+        className="flex items-center justify-center h-full bg-gradient-to-br from-purple-900 via-blue-900 to-black text-white"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        Yuklanmoqda...
+        <div className="flex flex-col items-center space-y-4">
+          <motion.div
+            className="w-16 h-16 border-4 border-t-amber-400 border-blue-500 rounded-full"
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 1 }}
+          />
+          <motion.p
+            className="text-lg font-medium bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+          >
+            Imperium yuklanmoqda...
+          </motion.p>
+        </div>
       </motion.div>
     );
   }
 
-  // Real balansga asoslangan level progress
+  // Progress calculations
   const { currentLevel, progress } = getLevelProgress(user.totalEarned || 0, levelThresholds);
   const currentLevelName = levelNames[currentLevel - 1] || 'Amir';
   const nextLevelRequirement = levelThresholds[currentLevel] || 'MAX';
   const nextLevelText = nextLevelRequirement === 'MAX' ? 'MAX' : formatNumberShort(Math.floor(nextLevelRequirement - (user.totalEarned || 0)));
+  const progressPercentage = Math.min(progress * 100, 100);
 
   const tapProfit = Math.floor(calculateTapPower(user) * (isTapBoostActive ? 2 : 1) * (user.isPremium ? 1.5 : 1));
+  const maxEnergy = calculateMaxEnergy(user);
+  const energyPercentage = Math.max(0, Math.min(100, (user.energy / maxEnergy) * 100));
 
-  // Joriy avatarni aniqlash
+  // Avatar and background logic
   const getCurrentAvatar = () => {
-    // Agar foydalanuvchi avatar tanlagan bo'lsa
-    if (user.selectedAvatar) {
-      return user.selectedAvatar;
-    }
-    
-    // Default avatar
-    return '🏙️';
+    if (user.selectedAvatar) return user.selectedAvatar;
+    return '🏛️';
   };
 
-  // Joriy transport/binoni aniqlash
   const getCurrentBackground = () => {
     const items = user.itemLevels || {};
-    
-    // Transport
     if (user.selectedVehicle) return user.selectedVehicle;
-    
-    // Bino
     if (user.selectedBuilding) return user.selectedBuilding;
-    
     return null;
   };
 
-  const handleTap = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (user.energy < tapProfit) {
-        window.Telegram?.WebApp?.HapticFeedback.impactOccurred('light');
-        return;
+  // Combo system
+  useEffect(() => {
+    const comboTimeout = setTimeout(() => {
+      if (Date.now() - lastTapTime > 2000) {
+        setComboCount(0);
       }
-      setUser((prevUser) => {
-        if (!prevUser) return prevUser;
-        return {
-          ...prevUser,
-          dubaiCoin: Math.floor((prevUser.dubaiCoin || 0) + tapProfit),
-          energy: Math.floor((prevUser.energy || 0) - tapProfit),
-          totalEarned: Math.floor((prevUser.totalEarned || 0) + tapProfit),
-          tapsToday: Math.floor((prevUser.tapsToday || 0) + 1),
-        };
-      });
-      const event = e.touches ? e.touches[0] : e;
-      if (!tapAreaRef.current) return;
-      const rect = tapAreaRef.current.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      setTaps((prev) => [...prev.slice(-10), { id: Date.now(), x, y, amount: `+${Math.floor(tapProfit)}` }]);
-      window.Telegram?.WebApp?.HapticFeedback.impactOccurred('medium');
-    },
-    [user.energy, setUser, tapProfit]
-  );
+    }, 2000);
+    return () => clearTimeout(comboTimeout);
+  }, [lastTapTime]);
 
-  const boostsLeft = (user.isPremium ? 5 : 3) - (user.dailyTapBoostsUsed || 0);
+  // Particle effect cleanup
+  useEffect(() => {
+    const cleanup = setInterval(() => {
+      setParticleEffects(prev => prev.filter(p => Date.now() - p.timestamp < 2000));
+    }, 100);
+    return () => clearInterval(cleanup);
+  }, []);
+
+  const createParticleEffect = (x, y, value) => {
+    const particle = {
+      id: Date.now() + Math.random(),
+      x: x - 20,
+      y: y - 20,
+      value,
+      timestamp: Date.now()
+    };
+    setParticleEffects(prev => [...prev.slice(-4), particle]);
+  };
+
+  const handleTap = useCallback((e) => {
+    e.preventDefault();
+    
+    if (user.energy < 1) {
+      window.Telegram?.WebApp?.HapticFeedback.impactOccurred('light');
+      return;
+    }
+
+    const currentTime = Date.now();
+    const timeDiff = currentTime - lastTapTime;
+    
+    // Combo logic
+    let newComboCount = timeDiff < 2000 ? comboCount + 1 : 1;
+    setComboCount(newComboCount);
+    setLastTapTime(currentTime);
+
+    // Combo multiplier
+    const comboMultiplier = Math.min(1 + (newComboCount - 1) * 0.1, 3);
+    const finalTapProfit = Math.floor(tapProfit * comboMultiplier);
+
+    const rect = tapAreaRef.current?.getBoundingClientRect();
+    if (rect) {
+      const x = (e.touches?.[0]?.clientX || e.clientX) - rect.left;
+      const y = (e.touches?.[0]?.clientY || e.clientY) - rect.top;
+      
+      // Create tap effect
+      const tapId = Date.now() + Math.random();
+      setTaps(prev => [...prev.slice(-4), { id: tapId, x, y, value: finalTapProfit }]);
+      
+      // Create particle effect
+      createParticleEffect(x, y, finalTapProfit);
+      
+      setTimeout(() => {
+        setTaps(prev => prev.filter(tap => tap.id !== tapId));
+      }, 1000);
+    }
+
+    // Update user state
+    setUser(prevUser => ({
+      ...prevUser,
+      dubaiCoin: prevUser.dubaiCoin + finalTapProfit,
+      totalEarned: prevUser.totalEarned + finalTapProfit,
+      energy: Math.max(0, prevUser.energy - 1),
+      tapsToday: (prevUser.tapsToday || 0) + 1,
+    }));
+
+    // Haptic feedback
+    if (newComboCount > 5) {
+      window.Telegram?.WebApp?.HapticFeedback.impactOccurred('heavy');
+    } else {
+      window.Telegram?.WebApp?.HapticFeedback.impactOccurred('medium');
+    }
+  }, [user.energy, tapProfit, comboCount, lastTapTime, setUser]);
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-gray-900 via-blue-900 to-black pb-20 overflow-hidden">
-      {/* Minimal Header */}
-      <div className="flex-shrink-0 px-2 pt-1">
-        <motion.div className="flex items-center justify-center gap-2 mb-1" initial={{ y: -20 }} animate={{ y: 0 }} transition={{ duration: 0.3 }}>
-          <img src={user.profilePictureUrl || '/default-avatar.png'} className="w-5 h-5 rounded-full border border-yellow-400" alt="User" />
-          <p className="font-bold text-xs text-white">{user.username || 'Foydalanuvchi'}</p>
-          {user.isPremium && <span className="text-xs bg-yellow-400/20 text-yellow-300 px-1 py-0.5 rounded">👑</span>}
-        </motion.div>
-        
-        {/* Hamster Kombat uslubida top panel */}
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 opacity-20">
         <motion.div
-          className="grid grid-cols-3 gap-1 text-center w-full px-1 py-1 bg-gray-800/40 border border-gray-600/50 rounded-lg backdrop-blur-sm mb-1"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="flex-1">
-            <p className="text-xs text-gray-400">Har bosishga</p>
-            <div className="flex items-center justify-center gap-1">
-              <CoinIcon className="w-3 h-3 text-yellow-400" />
-              <p className={`text-sm font-bold ${isTapBoostActive ? 'text-purple-400 animate-pulse' : 'text-yellow-400'}`}>
-                +{formatNumberShort(Math.floor(tapProfit || 0))}
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex-1 border-x border-white/10">
-            <p className="text-xs text-gray-400">Soatlik</p>
-            <div className="flex items-center justify-center gap-1">
-              <CoinIcon className="w-3 h-3 text-green-400" />
-              <p className="text-sm font-bold text-green-400">
-                +{formatNumberShort(Math.floor(passiveIncome * (user?.isPremium ? 1.5 : 1)) || 0)}
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex-1">
-            <p className="text-xs text-gray-400">Keyingi daraja</p>
-            <p className="text-sm font-bold text-white">{nextLevelText}</p>
-          </div>
-        </motion.div>
-        
-        {/* Asosiy balans - alohida va katta */}
-        <motion.div 
-          className="text-center mb-2"
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <BalanceDisplay user={user} size="large" />
-        </motion.div>
-        
-        {/* Minimal progress bar with clickable level */}
-        <div className="w-full max-w-md mx-auto px-1 mb-1">
-          <div className="flex justify-between items-center text-xs mb-1">
-            <button
-              onClick={() => setShowLevelModal(true)}
-              className="font-bold text-yellow-300 hover:text-yellow-200 transition-colors cursor-pointer"
-            >
-              {currentLevelName}
-            </button>
-            <span className="text-white/60 text-xs">Lv. {Math.floor(currentLevel)}</span>
-          </div>
-          <div className="w-full bg-black/30 rounded-full h-3 overflow-hidden">
-            <motion.div
-              className="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.5 }}
-            ></motion.div>
-          </div>
-        </div>
+          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-amber-400/30 to-orange-500/30 rounded-full blur-xl"
+          animate={{
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+          }}
+          transition={{ repeat: Infinity, duration: 8 }}
+        />
+        <motion.div
+          className="absolute bottom-40 right-10 w-24 h-24 bg-gradient-to-r from-blue-400/30 to-purple-500/30 rounded-full blur-xl"
+          animate={{
+            x: [0, -30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{ repeat: Infinity, duration: 6 }}
+        />
       </div>
 
-      {/* Tap area - markaziy qism */}
-      <div className="flex-grow flex items-center justify-center relative px-4">
-        <AnimatePresence>
-          {offlineEarningsToClaim > 0 && (
-            <motion.div
-              className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="bg-gray-800/95 border border-yellow-400/50 rounded-xl p-6 text-center backdrop-blur-sm max-w-sm mx-4"
-                initial={{ scale: 0.8, y: 20 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.8, y: 20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <p className="text-2xl font-bold text-white mb-3">🤖 Robot ishladi!</p>
-                <p className="text-3xl font-bold text-yellow-300 mb-4">+{Math.floor(offlineEarningsToClaim || 0).toLocaleString('en-US').replace(/,/g, ' ')}</p>
-                <motion.button
-                  onClick={handleClaimOfflineEarnings}
-                  className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-3 rounded-lg"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Yig'ib olish
-                </motion.button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        
-        {/* Professional tap area */}
-        <motion.div
-          ref={tapAreaRef}
-          className="relative w-64 h-64 cursor-pointer select-none"
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.1 }}
-        >
-          {/* Gradient background circle */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/20 via-purple-500/20 to-pink-500/20 animate-pulse"></div>
-          
-          {/* Character/City icon */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative">
-              {/* Background element (transport/bino) */}
-              {getCurrentBackground() && (
-                <motion.div 
-                  className="absolute inset-0 text-6xl opacity-30 flex items-center justify-center"
-                  animate={{ 
-                    scale: isTapBoostActive ? [1, 1.05, 1] : 1
-                  }}
-                  transition={{ 
-                    duration: isTapBoostActive ? 0.5 : 0,
-                    repeat: isTapBoostActive ? Infinity : 0
-                  }}
-                >
-                  {getCurrentBackground()}
-                </motion.div>
-              )}
-              
-              {/* Main avatar */}
+      {/* Header with balance */}
+      <div className="relative z-10 p-4 pb-2">
+        <BalanceDisplay user={user} />
+      </div>
+
+      {/* Level Progress Section */}
+      <motion.div 
+        className="px-4 py-3"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
+        <div className="bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-lg rounded-2xl p-4 border border-amber-500/30 shadow-2xl">
+          {/* Level Info */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center space-x-3">
               <motion.div 
-                className="text-8xl filter drop-shadow-2xl relative z-10 cursor-pointer select-none"
-                animate={{ 
-                  scale: isTapBoostActive ? [1, 1.1, 1] : 1,
-                  rotate: isTapBoostActive ? [0, 5, -5, 0] : 0
-                }}
-                transition={{ 
-                  duration: isTapBoostActive ? 0.5 : 0,
-                  repeat: isTapBoostActive ? Infinity : 0
-                }}
-                onMouseDown={handleTap}
-                onTouchStart={handleTap}
+                className="w-12 h-12 bg-gradient-to-r from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {getCurrentAvatar()}
+                <span className="text-2xl font-bold text-black">{currentLevel}</span>
               </motion.div>
+              <div>
+                <h3 className="text-lg font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                  {currentLevelName}
+                </h3>
+                <p className="text-xs text-gray-400">Daraja {currentLevel}</p>
+              </div>
+            </div>
+            <motion.button
+              className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 rounded-xl text-sm font-medium hover:from-blue-500 hover:to-purple-500 transition-all shadow-lg"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowLevelModal(true)}
+            >
+              Ma'lumot
+            </motion.button>
+          </div>
+
+          {/* Enhanced Progress Bar */}
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-300">Progress</span>
+              <span className="text-amber-400 font-medium">{progressPercentage.toFixed(1)}%</span>
+            </div>
+            <div className="relative h-3 bg-slate-700 rounded-full overflow-hidden shadow-inner">
+              <motion.div
+                className="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-amber-600 rounded-full shadow-lg"
+                initial={{ width: 0 }}
+                animate={{ width: `${progressPercentage}%` }}
+                transition={{ duration: 1, ease: "easeOut" }}
+              />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+              />
+            </div>
+            <div className="flex justify-between text-xs text-gray-400">
+              <span>Joriy: {formatNumberShort(user.totalEarned || 0)}</span>
+              <span>Kerak: {nextLevelText}</span>
             </div>
           </div>
+        </div>
+      </motion.div>
+
+      {/* Stats Panel */}
+      <div className="px-4 py-2">
+        <TopInfoPanel 
+          user={user} 
+          passiveIncome={passiveIncome} 
+          isTapBoostActive={isTapBoostActive} 
+          tapProfit={tapProfit} 
+          nextLevelText={nextLevelText}
+        />
+      </div>
+
+      {/* Combo Display */}
+      <AnimatePresence>
+        {comboCount > 1 && (
+          <motion.div
+            className="absolute top-32 left-1/2 transform -translate-x-1/2 z-30"
+            initial={{ opacity: 0, scale: 0.5, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.5, y: -20 }}
+          >
+            <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 rounded-full shadow-2xl border-2 border-white/30">
+              <span className="text-white font-bold text-lg">
+                {comboCount}x COMBO!
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main Tap Area */}
+      <div className="flex-1 flex items-center justify-center px-4 pb-6 relative">
+        <motion.div
+          ref={tapAreaRef}
+          className="relative w-80 h-80 flex items-center justify-center cursor-pointer"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onPointerDown={handleTap}
+          style={{ touchAction: 'manipulation' }}
+        >
+          {/* Tap Area Background */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-br from-amber-400/20 to-orange-500/20 rounded-full"
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{ repeat: Infinity, duration: 3 }}
+          />
           
-          {/* Tap effects */}
+          {/* Energy Ring */}
+          <motion.div className="absolute inset-0">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="2"
+                fill="none"
+              />
+              <motion.circle
+                cx="50"
+                cy="50"
+                r="45"
+                stroke="url(#energyGradient)"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+                strokeDasharray={`${2 * Math.PI * 45}`}
+                strokeDashoffset={`${2 * Math.PI * 45 * (1 - energyPercentage / 100)}`}
+                transition={{ duration: 0.5 }}
+              />
+              <defs>
+                <linearGradient id="energyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3b82f6" />
+                  <stop offset="100%" stopColor="#8b5cf6" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </motion.div>
+
+          {/* Main Avatar */}
+          <motion.div
+            className="relative z-10 w-48 h-48 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/30"
+            animate={{
+              boxShadow: [
+                "0 0 0 0 rgba(251, 191, 36, 0.4)",
+                "0 0 0 20px rgba(251, 191, 36, 0)",
+                "0 0 0 0 rgba(251, 191, 36, 0)"
+              ]
+            }}
+            transition={{ repeat: Infinity, duration: 2 }}
+          >
+            <span className="text-8xl filter drop-shadow-lg">
+              {getCurrentAvatar()}
+            </span>
+          </motion.div>
+
+          {/* Tap Effects */}
           <AnimatePresence>
             {taps.map((tap) => (
               <motion.div
                 key={tap.id}
-                className="absolute text-yellow-400 font-bold text-xl pointer-events-none z-10"
-                style={{ top: tap.y, left: tap.x, transform: 'translate(-50%, -50%)' }}
-                initial={{ opacity: 1, y: 0, scale: 1 }}
-                animate={{ opacity: 0, y: -60, scale: 1.2 }}
+                className="absolute pointer-events-none z-20"
+                style={{ left: tap.x, top: tap.y }}
+                initial={{ opacity: 1, scale: 0, y: 0 }}
+                animate={{ 
+                  opacity: 0, 
+                  scale: 1.5, 
+                  y: -100,
+                  x: Math.random() * 40 - 20
+                }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}
+                transition={{ duration: 1, ease: "easeOut" }}
               >
-                {tap.amount}
+                <div className="bg-gradient-to-r from-amber-400 to-orange-500 text-black px-3 py-1 rounded-full font-bold text-lg shadow-2xl border-2 border-white/50">
+                  +{formatNumberShort(tap.value)}
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {/* Particle Effects */}
+          <AnimatePresence>
+            {particleEffects.map((particle) => (
+              <motion.div
+                key={particle.id}
+                className="absolute pointer-events-none z-15"
+                style={{ left: particle.x, top: particle.y }}
+                initial={{ opacity: 1, scale: 1 }}
+                animate={{ 
+                  opacity: 0, 
+                  scale: 0,
+                  y: -60,
+                  x: Math.random() * 60 - 30
+                }}
+                transition={{ duration: 1.5 }}
+              >
+                <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
       </div>
 
-      {/* Minimal Footer */}
-      <div className="flex-shrink-0 px-4 pb-2">
-        <div className="flex justify-between items-center bg-gray-800/50 rounded-lg px-3 py-2">
-          <div className="flex items-center gap-2 font-bold text-cyan-300">
-            <span>⚡️</span>
-            <span className="text-sm">
-              {Math.floor(user.energy || 0).toLocaleString('en-US').replace(/,/g, ' ')} / {Math.floor(user.maxEnergy || 500).toLocaleString('en-US').replace(/,/g, ' ')}
+      {/* Energy Bar */}
+      <motion.div 
+        className="px-4 pb-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <div className="bg-slate-800/80 backdrop-blur-lg rounded-2xl p-4 border border-blue-500/30">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center space-x-2">
+              <span className="text-2xl">⚡</span>
+              <span className="text-lg font-bold text-blue-400">Energiya</span>
+            </div>
+            <span className="text-sm font-medium text-gray-300">
+              {Math.floor(user.energy)}/{maxEnergy}
             </span>
           </div>
-          <motion.button
-            onClick={handleActivateTapBoost}
-            disabled={isTapBoostActive || boostsLeft <= 0}
-            className="flex items-center gap-2 font-bold text-yellow-300 transition-opacity hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed text-sm bg-yellow-400/10 px-3 py-1 rounded-lg"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span>🚀</span>
-            <span>{Math.floor(boostsLeft)}/{user.isPremium ? 5 : 3}</span>
-          </motion.button>
+          <div className="relative h-4 bg-slate-700 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
+              animate={{ width: `${energyPercentage}%` }}
+              transition={{ duration: 0.5 }}
+            />
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              animate={{ x: ['-100%', '100%'] }}
+              transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+            />
+          </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Tap Boost Button */}
+      <motion.div 
+        className="px-4 pb-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
+        <motion.button
+          className={`w-full py-4 rounded-2xl font-bold text-lg shadow-2xl transition-all ${
+            isTapBoostActive
+              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+              : 'bg-gradient-to-r from-amber-500 to-orange-600 text-black hover:from-amber-400 hover:to-orange-500'
+          }`}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleActivateTapBoost}
+          disabled={isTapBoostActive}
+        >
+          {isTapBoostActive ? (
+            <span className="flex items-center justify-center space-x-2">
+              <motion.span
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 2 }}
+              >
+                🚀
+              </motion.span>
+              <span>TAP BOOST FAOL!</span>
+            </span>
+          ) : (
+            'TAP BOOST FAOLLASHTIRISH'
+          )}
+        </motion.button>
+      </motion.div>
+
+      {/* Offline Earnings Claim */}
+      <AnimatePresence>
+        {offlineEarningsToClaim > 0 && (
+          <motion.div
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-3xl shadow-2xl border border-amber-500/50 max-w-sm mx-4"
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+            >
+              <div className="text-center space-y-4">
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                >
+                  <span className="text-6xl">💰</span>
+                </motion.div>
+                <h3 className="text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                  Offline Daromad!
+                </h3>
+                <p className="text-gray-300">
+                  Siz yo'q bo'lgan vaqtda{' '}
+                  <span className="text-amber-400 font-bold">
+                    {formatNumberShort(offlineEarningsToClaim)}
+                  </span>{' '}
+                  tanga yig'ildi!
+                </p>
+                <motion.button
+                  className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-black py-3 rounded-xl font-bold text-lg shadow-xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleClaimOfflineEarnings}
+                >
+                  Olish
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Level Modal */}
       <LevelModal
         show={showLevelModal}
         onClose={() => setShowLevelModal(false)}
-        user={user}
+        currentLevel={currentLevel}
+        currentLevelName={currentLevelName}
         levelNames={levelNames}
         levelThresholds={levelThresholds}
-        leaderboard={leaderboard}
+        userProgress={user.totalEarned || 0}
       />
     </div>
   );
