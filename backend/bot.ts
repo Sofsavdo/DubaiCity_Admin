@@ -66,18 +66,68 @@ class DubaiCityBot {
     });
 
     // Start command
-    this.bot.onText(/\/start(?:\s+(.+))?/, async (msg, match) => {
-      const chatId = msg.chat.id;
-      const telegramId = msg.from?.id.toString();
-      const username = msg.from?.username;
-      const firstName = msg.from?.first_name || '';
-      const lastName = msg.from?.last_name || '';
-      const referralCode = match?.[1]; // Extract referral code from /start command
 
-      if (!telegramId) {
-        return;
-      }
+this.bot.onText(/\/start(?:\s+(.+))?/, async (msg, match) => {
 
+  const chatId = msg.chat.id;
+
+  const telegramId = msg.from?.id.toString();
+
+  const username = msg.from?.username;
+
+  const firstName = msg.from?.first_name || '';
+
+  const lastName = msg.from?.last_name || '';
+
+  const referralCode = match?.[1]; // Referral kodni olish saqlanib qoldi
+
+
+
+  if (!telegramId) {
+
+    return;
+
+  }
+
+
+
+  // O'YINNING VERCEL'DAGI MANZILINI SHU YERGA QO'YING
+
+  const gameUrl = 'https://dubai-city-nu.vercel.app/'; 
+
+
+
+  const options = {
+
+    reply_markup: {
+
+      inline_keyboard: [
+
+        [
+
+          { text: '🚀 O\'yinni boshlash', web_app: { url: gameUrl } }
+
+        ]
+
+      ]
+
+    }
+
+  };
+
+
+
+  // Foydalanuvchiga tugma bilan birga xush kelibsiz xabarini yuborish
+
+  this.bot.sendMessage(
+
+    chatId, 
+
+    'Dubai City o\'yiniga xush kelibsiz! Boshlash uchun quyidagi tugmani bosing:', 
+
+    options
+
+  );
       try {
         // Get or create user
         let user = await storage.getUserByTelegramId(telegramId);
