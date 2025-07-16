@@ -8,6 +8,10 @@
     "build": "tsc",
     "start": "node index.js"
   },
+  "scripts": {
+  "dev": "tsx backend/index.ts",
+  "start": "npx tsx backend/index.ts"
+}
   "dependencies": {
     "@neondatabase/serverless": "^0.9.0",
     "cors": "^2.8.5",
