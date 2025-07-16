@@ -9,10 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
-  "scripts": {
-  "dev": "tsx backend/index.ts",
-  "start": "npx tsx backend/index.ts"
-}
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
     "@types/cors": "^2.8.19",
