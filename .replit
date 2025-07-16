@@ -1,0 +1,58 @@
+modules = ["nodejs-20", "web", "postgresql-16"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "dev-server"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "database-setup"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "backend-server"
+
+[[workflows.workflow]]
+name = "dev-server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx vite"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "database-setup"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx drizzle-kit push"
+
+[[workflows.workflow]]
+name = "backend-server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "tsx backend/index.ts"
+waitForPort = 3001
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
+localPort = 5000
+externalPort = 80

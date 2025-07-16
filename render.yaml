@@ -1,0 +1,16 @@
+# Render deployment configuration
+services:
+  - type: web
+    name: dubai-city-backend
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm install
+    startCommand: tsx backend/index.ts
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+    healthCheckPath: /api/health

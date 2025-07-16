@@ -1,0 +1,262 @@
+romise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+5all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:42505
+    at new Promise (<anonymous>)
+    at g (all-frames.js:1:42433)
+    at Object.apply (all-frames.js:1:40519)
+    at DJe (all-frames.js:702:6276)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+2all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+8all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+4all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+3all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+2all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)Understand this error
+4all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+workspace_iframe.html:32 Unrecognized feature: 'ambient-light-sensor'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'battery'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-not-rendered'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'execution-while-out-of-viewport'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'layout-animations'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'legacy-image-formats'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'navigation-override'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'oversized-images'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'publickey-credentials'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'speaker-selection'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'unoptimized-images'.Understand this warning
+workspace_iframe.html:32 Unrecognized feature: 'unsized-media'.Understand this warning
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowfullscreen'.Understand this warning
+workspace_iframe.html:32 Allow attribute will take precedence over 'allowpaymentrequest'.Understand this warning
+501106c3-7386-4c4a-b924-f75b57a15050-00-3m3aipo2gb130.riker.replit.dev/:1  Failed to load resource: the server responded with a status of 403 (Forbidden)Understand this error
+2all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)Understand this error
+10all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:42505
+    at new Promise (<anonymous>)
+    at g (all-frames.js:1:42433)
+    at Object.apply (all-frames.js:1:40519)
+    at oo (all-frames.js:17:1201)
+    at RJe (all-frames.js:702:5383)
+(anonymous) @ all-frames.js:1
+g @ all-frames.js:1
+apply @ all-frames.js:1
+oo @ all-frames.js:17
+RJe @ all-frames.js:702Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)

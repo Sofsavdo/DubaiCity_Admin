@@ -1,0 +1,115 @@
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)
+(anonymous) @ all-frames.js:1
+(anonymous) @ all-frames.js:1
+apply @ all-frames.js:1
+ue @ all-frames.js:17
+onCanInsert @ all-frames.js:23
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+w @ all-frames.js:11
+x @ all-frames.js:11
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+w @ all-frames.js:11
+x @ all-frames.js:11Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)
+(anonymous) @ all-frames.js:1
+(anonymous) @ all-frames.js:1
+apply @ all-frames.js:1
+ue @ all-frames.js:17
+onCanInsert @ all-frames.js:23
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+y @ all-frames.js:11
+g @ all-frames.js:11
+setTimeout
+g @ all-frames.js:11
+setTimeout
+w @ all-frames.js:11
+x @ all-frames.js:11
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+w @ all-frames.js:11
+x @ all-frames.js:11Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)
+(anonymous) @ all-frames.js:1
+(anonymous) @ all-frames.js:1
+apply @ all-frames.js:1
+ue @ all-frames.js:17
+onCanInsert @ all-frames.js:23
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+w @ all-frames.js:11
+x @ all-frames.js:11
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+w @ all-frames.js:11
+x @ all-frames.js:11
+selectionchange
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+(anonymous) @ 275e5802-f8665b6341ae32eb.js:1
+ignore @ 275e5802-f8665b6341ae32eb.js:1
+updateInner @ 275e5802-f8665b6341ae32eb.js:1
+update @ 275e5802-f8665b6341ae32eb.js:1
+update @ 275e5802-f8665b6341ae32eb.js:1
+(anonymous) @ 275e5802-f8665b6341ae32eb.js:1
+dispatch @ 275e5802-f8665b6341ae32eb.js:1
+eg @ 275e5802-f8665b6341ae32eb.js:1
+handlers.textupdate @ 275e5802-f8665b6341ae32eb.js:1
+n @ _app-56b1c6340e944b65.js:38Understand this error
+6all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:42505
+    at new Promise (<anonymous>)
+    at g (all-frames.js:1:42433)
+    at Object.apply (all-frames.js:1:40519)
+    at oo (all-frames.js:17:1201)
+    at RJe (all-frames.js:702:5383)
+(anonymous) @ all-frames.js:1
+g @ all-frames.js:1
+apply @ all-frames.js:1
+oo @ all-frames.js:17
+RJe @ all-frames.js:702Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)
