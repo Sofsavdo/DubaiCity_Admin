@@ -17,15 +17,63 @@ function log(message: string) {
   console.log(`[${timestamp}] ${message}`);
 }
 
-// Directly define routes without registerRoutes function
+// Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({
     status: "healthy",
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || "development"
+    environment: process.env.NODE_ENV || "development",
+    database: process.env.DATABASE_URL ? "connected" : "not configured",
+    telegram: process.env.TELEGRAM_BOT_TOKEN ? "configured" : "not configured"
   });
 });
 
+// Telegram Web App authentication
+app.post("/api/telegram/auth", async (req, res) => {
+  try {
+    const { initData } = req.body;
+    
+    if (!initData) {
+      return res.status(400).json({ error: "Init data required" });
+    }
+
+    // Parse the user data from initData
+    const urlParams = new URLSearchParams(initData);
+    const userParam = urlParams.get('user');
+    
+    if (!userParam) {
+      return res.status(400).json({ error: 'User data not found' });
+    }
+
+    const userData = JSON.parse(userParam);
+    
+    // Check if user exists, if not create them
+    let user = await storage.getUserByTelegramId(userData.id.toString());
+    
+    if (!user) {
+      user = await storage.createUser({
+        telegramId: userData.id.toString(),
+        username: userData.username || userData.first_name,
+        firstName: userData.first_name,
+        lastName: userData.last_name || '',
+        dubaiCoin: 1000,
+        tapProfit: 1,
+        hourlyIncome: 0,
+        level: 1,
+        energy: 5000,
+        maxEnergy: 5000,
+        referralCode: Math.random().toString(36).substring(2, 8).toUpperCase()
+      });
+    }
+
+    res.json({ user, success: true });
+  } catch (error) {
+    console.error('Telegram auth error:', error);
+    res.status(500).json({ error: "Authentication failed" });
+  }
+});
+
+// User management endpoints
 app.get("/api/users", async (req, res) => {
   try {
     const users = await storage.getAllUsers();
@@ -53,46 +101,7 @@ app.get("/api/tasks", async (req, res) => {
   }
 });
 
-app.get("/api/skins", async (req, res) => {
-  try {
-    const skins = await storage.getAllSkins();
-    res.json(skins);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch skins" });
-  }
-});
-
-app.get("/api/businesses", async (req, res) => {
-  try {
-    const businesses = await storage.getAllBusinesses();
-    res.json(businesses);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch businesses" });
-  }
-});
-
-app.post("/api/telegram/auth", async (req, res) => {
-  try {
-    const { initData } = req.body;
-    
-    if (!initData) {
-      return res.status(400).json({ error: "Init data required" });
-    }
-
-    res.json({ 
-      user: { 
-        id: 1, 
-        username: "testuser", 
-        dubaiCoin: 1000 
-      }, 
-      success: true 
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Authentication failed" });
-  }
-});
-
-// Serve static files
+// Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   const staticPath = path.join(process.cwd(), "dist");
   app.use(express.static(staticPath));
@@ -104,6 +113,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// Initialize and start server
 (async () => {
   try {
     await storage.init();
@@ -116,6 +126,7 @@ if (process.env.NODE_ENV === 'production') {
       log(`🚀 Server running on ${host}:${port}`);
       log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
       log(`🗄️ Database: ${process.env.DATABASE_URL ? 'Connected ✅' : 'Using in-memory storage ⚠️'}`);
+      log(`🤖 Telegram: ${process.env.TELEGRAM_BOT_TOKEN ? 'Configured ✅' : 'Not configured ⚠️'}`);
     });
   } catch (error) {
     console.error("Failed to start server:", error);
