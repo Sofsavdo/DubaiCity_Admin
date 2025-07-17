@@ -13,7 +13,6 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(corsMiddleware);
 
-// Request logging
 app.use((req, res, next) => {
   const start = Date.now();
   res.on("finish", () => {
@@ -30,6 +29,17 @@ function log(message: string) {
   console.log(`[${timestamp}] ${message}`);
 }
 
+function serveStatic(app: express.Express) {
+  const staticPath = path.join(process.cwd(), "dist");
+  app.use(express.static(staticPath));
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+      return next();
+    }
+    res.sendFile(path.join(staticPath, "index.html"));
+  });
+}
+
 (async () => {
   try {
     await storage.init();
@@ -41,6 +51,10 @@ function log(message: string) {
       log(`Error: ${status} - ${message}`);
       res.status(status).json({ error: message });
     });
+
+    if (process.env.NODE_ENV === 'production') {
+      serveStatic(app);
+    }
 
     const port = parseInt(process.env.PORT as string) || 3001;
     const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
