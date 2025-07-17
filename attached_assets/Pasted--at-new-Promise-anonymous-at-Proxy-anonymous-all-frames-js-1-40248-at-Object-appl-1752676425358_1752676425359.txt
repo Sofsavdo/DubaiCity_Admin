@@ -1,0 +1,165 @@
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at y (all-frames.js:11:442485)
+    at g (all-frames.js:11:442424)
+(anonymous) @ all-frames.js:1
+(anonymous) @ all-frames.js:1
+apply @ all-frames.js:1
+ue @ all-frames.js:17
+onCanInsert @ all-frames.js:23
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+y @ all-frames.js:11
+g @ all-frames.js:11
+setTimeout
+g @ all-frames.js:11
+setTimeout
+w @ all-frames.js:11
+x @ all-frames.js:11
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+y @ all-frames.js:11
+g @ all-frames.js:11
+setTimeout
+g @ all-frames.js:11
+setTimeout
+w @ all-frames.js:11
+x @ all-frames.js:11
+selectionchange
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+(anonymous) @ 275e5802-f8665b6341ae32eb.js:1
+ignore @ 275e5802-f8665b6341ae32eb.js:1
+updateInner @ 275e5802-f8665b6341ae32eb.js:1
+update @ 275e5802-f8665b6341ae32eb.js:1
+update @ 275e5802-f8665b6341ae32eb.js:1
+(anonymous) @ 275e5802-f8665b6341ae32eb.js:1
+dispatch @ 275e5802-f8665b6341ae32eb.js:1
+eg @ 275e5802-f8665b6341ae32eb.js:1
+handlers.textupdate @ 275e5802-f8665b6341ae32eb.js:1
+n @ _app-56b1c6340e944b65.js:38Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)
+(anonymous) @ all-frames.js:1
+(anonymous) @ all-frames.js:1
+apply @ all-frames.js:1
+ue @ all-frames.js:17
+onCanInsert @ all-frames.js:23
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+w @ all-frames.js:11
+x @ all-frames.js:11
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+y @ all-frames.js:11
+g @ all-frames.js:11
+setTimeout
+g @ all-frames.js:11
+setTimeout
+g @ all-frames.js:11
+setTimeout
+w @ all-frames.js:11
+x @ all-frames.js:11
+selectionchange
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+sync @ 275e5802-f8665b6341ae32eb.js:1
+(anonymous) @ 275e5802-f8665b6341ae32eb.js:1
+ignore @ 275e5802-f8665b6341ae32eb.js:1
+updateInner @ 275e5802-f8665b6341ae32eb.js:1
+update @ 275e5802-f8665b6341ae32eb.js:1
+update @ 275e5802-f8665b6341ae32eb.js:1
+(anonymous) @ 275e5802-f8665b6341ae32eb.js:1
+dispatch @ 275e5802-f8665b6341ae32eb.js:1
+eg @ 275e5802-f8665b6341ae32eb.js:1
+handlers.textupdate @ 275e5802-f8665b6341ae32eb.js:1
+n @ _app-56b1c6340e944b65.js:38Understand this error
+workspace_iframe.html:151  GET https://501106c3-7386-4c4a-b924-f75b57a15050-00-3m3aipo2gb130.riker.replit.dev/ 403 (Forbidden)
+(anonymous) @ workspace_iframe.html?initialPath=%2F&id=%3Ar1dj%3A:151Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)
+(anonymous) @ all-frames.js:1
+(anonymous) @ all-frames.js:1
+apply @ all-frames.js:1
+ue @ all-frames.js:17
+onCanInsert @ all-frames.js:23
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+w @ all-frames.js:11
+x @ all-frames.js:11
+Sn.leading @ all-frames.js:23
+p @ all-frames.js:11
+w @ all-frames.js:11
+x @ all-frames.js:11
+selectionchange
+set @ framework-f19320d7c934e18f.js:1
+er @ framework-f19320d7c934e18f.js:1
+(anonymous) @ framework-f19320d7c934e18f.js:1
+uD @ framework-f19320d7c934e18f.js:1
+uI @ framework-f19320d7c934e18f.js:1
+uM @ framework-f19320d7c934e18f.js:1
+uS @ framework-f19320d7c934e18f.js:1
+C @ framework-f19320d7c934e18f.js:1
+z @ framework-f19320d7c934e18f.js:1
+(anonymous) @ setImmediate.js:40
+y @ setImmediate.js:69
+c @ setImmediate.js:109
+postMessage
+n @ setImmediate.js:120
+push.YBdB.f.setImmediate @ setImmediate.js:27
+r @ framework-f19320d7c934e18f.js:1
+I @ framework-f19320d7c934e18f.js:1
+t.unstable_scheduleCallback @ framework-f19320d7c934e18f.js:1
+uw @ framework-f19320d7c934e18f.js:1
+uk @ framework-f19320d7c934e18f.js:1
+lH @ framework-f19320d7c934e18f.js:1
+n @ 5593-c9facb2a3042fa3a.js:1
+n @ _app-56b1c6340e944b65.js:38Understand this error
+workspace_iframe.html?initialPath=%2F&id=%3Ar1g4%3A:151  GET https://501106c3-7386-4c4a-b924-f75b57a15050-00-3m3aipo2gb130.riker.replit.dev:3001/ 404 (Not Found)
+(anonymous) @ workspace_iframe.html?initialPath=%2F&id=%3Ar1g4%3A:151Understand this error
+501106c3-7386-4c4a-b924-f75b57a15050-00-3m3aipo2gb130.riker.replit.dev:3001/:1 Refused to load the script 'https://501106c3-7386-4c4a-b924-f75b57a15050-00-3m3aipo2gb130.riker.replit.dev:3001/__replco/static/devtools/eruda/3.2.3/eruda.js' because it violates the following Content Security Policy directive: "default-src 'none'". Note that 'script-src-elem' was not explicitly set, so 'default-src' is used as a fallback.
+Understand this error
+501106c3-7386-4c4a-b924-f75b57a15050-00-3m3aipo2gb130.riker.replit.dev:3001/:1 Refused to load the script 'https://501106c3-7386-4c4a-b924-f75b57a15050-00-3m3aipo2gb130.riker.replit.dev:3001/__replco/static/devtools/injected.js' because it violates the following Content Security Policy directive: "default-src 'none'". Note that 'script-src-elem' was not explicitly set, so 'default-src' is used as a fallback.
+Understand this error
+501106c3-7386-4c4a-b924-f75b57a15050-00-3m3aipo2gb130.riker.replit.dev/:1 Refused to execute inline event handler because it violates the following Content Security Policy directive: "default-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. Note also that 'script-src' was not explicitly set, so 'default-src' is used as a fallback.
+Understand this error
+workspace_iframe.html?initialPath=%2F&id=%3Ar1g4%3A:142 Refused to load the script 'https://replit.com/public/js/beacon.js' because it violates the following Content Security Policy directive: "default-src 'none'". Note that 'script-src-elem' was not explicitly set, so 'default-src' is used as a fallback.
+
+onIframeLoad @ workspace_iframe.html?initialPath=%2F&id=%3Ar1g4%3A:142Understand this error
+all-frames.js:1 Uncaught (in promise) Error: Extension context invalidated.
+    at all-frames.js:1:40437
+    at new Promise (<anonymous>)
+    at Proxy.<anonymous> (all-frames.js:1:40248)
+    at Object.apply (all-frames.js:1:40519)
+    at ue (all-frames.js:17:231)
+    at wf.onCanInsert (all-frames.js:23:59937)
+    at Sn.leading (all-frames.js:23:60509)
+    at p (all-frames.js:11:442194)
+    at w (all-frames.js:11:442252)
+    at x (all-frames.js:11:442687)
