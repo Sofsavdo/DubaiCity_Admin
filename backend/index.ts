@@ -42,7 +42,15 @@ function serveStatic(app: express.Express) {
 
 (async () => {
   try {
-    await storage.init();
+    // Storage init qilish (xatolik bo'lsa ham davom etsin)
+    try {
+      await storage.init();
+      log("✅ Storage initialized successfully");
+    } catch (storageError) {
+      log("⚠️ Storage initialization failed, continuing with limited functionality");
+      console.error(storageError);
+    }
+
     const server = await registerRoutes(app);
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -64,6 +72,11 @@ function serveStatic(app: express.Express) {
       log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
       log(`🤖 Telegram Bot Token: ${process.env.TELEGRAM_BOT_TOKEN ? 'Found ✅' : 'Not found ❌'}`);
       log(`🗄️ Database: ${process.env.DATABASE_URL ? 'Connected ✅' : 'Using in-memory storage ⚠️'}`);
+      
+      if (process.env.NODE_ENV === 'production') {
+        log(`🌐 Admin Panel: http://${host}:${port}`);
+        log(`🔌 API Base URL: http://${host}:${port}/api`);
+      }
     });
   } catch (error) {
     console.error("Failed to start server:", error);
