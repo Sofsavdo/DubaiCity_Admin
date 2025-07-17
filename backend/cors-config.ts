@@ -1,26 +1,42 @@
-
 import cors from 'cors';
 
-const corsOptions = {
-  origin: function (origin: string | undefined, callback: any) {
-    const allowedOrigins = process.env.CORS_ORIGINS?.split(',') || [
-      'https://workspace.xapaf60022.repl.co',
-      'http://localhost:3000',
-      'http://localhost:5173'
-    ];
-    
-    // Allow requests with no origin (mobile apps, etc.)
+const corsConfig = {
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
     if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5000',
+      'http://localhost:5173',
+      'https://dubaicity-lilac.vercel.app',
+      'https://dubai-city-frontend.vercel.app',
+      'https://t.me',
+      'https://web.telegram.org',
+      'https://dubai-city-admin.vercel.app',
+    ];
     
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn(`CORS blocked origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'Authorization',
+    'Cache-Control',
+    'X-Forwarded-For',
+    'X-Real-IP'
+  ],
+  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
+  maxAge: 86400,
 };
 
-export default cors(corsOptions);
+export const corsMiddleware = cors(corsConfig);
+export default corsConfig;
