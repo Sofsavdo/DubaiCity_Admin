@@ -1,3 +1,126 @@
+import { db } from "./db";
+import * as schema from "../shared/schema";
+
+export class Storage {
+  private db: typeof db;
+
+  constructor() {
+    this.db = db;
+  }
+
+  // Init funksiyasini qo'shamiz
+  async init() {
+    try {
+      if (this.db) {
+        console.log("✅ Storage initialized with database");
+      } else {
+        console.log("⚠️ Storage initialized without database (in-memory mode)");
+      }
+      return true;
+    } catch (error) {
+      console.error("❌ Storage initialization failed:", error);
+      return false;
+    }
+  }
+
+  // Existing methods...
+  async getAllUsers() {
+    try {
+      if (!this.db) {
+        return [];
+      }
+      return await this.db.select().from(schema.users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      return [];
+    }
+  }
+
+  async createUser(userData: any) {
+    try {
+      if (!this.db) {
+        throw new Error("Database not available");
+      }
+      const [user] = await this.db.insert(schema.users).values(userData).returning();
+      return user;
+    } catch (error) {
+      console.error("Error creating user:", error);
+      throw error;
+    }
+  }
+
+  async getUserByTelegramId(telegramId: string) {
+    try {
+      if (!this.db) {
+        return null;
+      }
+      const [user] = await this.db
+        .select()
+        .from(schema.users)
+        .where(eq(schema.users.telegramId, telegramId));
+      return user || null;
+    } catch (error) {
+      console.error("Error fetching user by telegram ID:", error);
+      return null;
+    }
+  }
+
+  async updateUser(id: number, userData: any) {
+    try {
+      if (!this.db) {
+        throw new Error("Database not available");
+      }
+      const [user] = await this.db
+        .update(schema.users)
+        .set(userData)
+        .where(eq(schema.users.id, id))
+        .returning();
+      return user;
+    } catch (error) {
+      console.error("Error updating user:", error);
+      throw error;
+    }
+  }
+
+  async getAllTasks() {
+    try {
+      if (!this.db) {
+        return [];
+      }
+      return await this.db.select().from(schema.tasks);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      return [];
+    }
+  }
+
+  async getAllSkins() {
+    try {
+      if (!this.db) {
+        return [];
+      }
+      return await this.db.select().from(schema.skins);
+    } catch (error) {
+      console.error("Error fetching skins:", error);
+      return [];
+    }
+  }
+
+  async getAllBusinesses() {
+    try {
+      if (!this.db) {
+        return [];
+      }
+      return await this.db.select().from(schema.businesses);
+    } catch (error) {
+      console.error("Error fetching businesses:", error);
+      return [];
+    }
+  }
+}
+
+// Singleton instance
+export const storage = new Storage();
 import { 
   users, tasks, skins, businesses, promoCodes, notifications, teams, projects, empireLevels, userTasks, userSkins, userBusinesses, promoCodeUsage, userNotifications, teamMembers, userProjects, settings,
   type User, type InsertUser, type Task, type InsertTask, type Skin, type InsertSkin, type Business, type InsertBusiness, type PromoCode, type InsertPromoCode, type Notification, type InsertNotification, type Team, type InsertTeam, type Project, type InsertProject, type EmpireLevel, type UserTask, type UserSkin, type UserBusiness, type PromoCodeUsage, type UserNotification, type TeamMember, type UserProject, type Setting
